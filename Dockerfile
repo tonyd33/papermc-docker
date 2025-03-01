@@ -4,13 +4,14 @@
 FROM alpine:latest
 
 # Environment variables
-ENV MC_VERSION="latest" \
+# If their servers have moved, change this
+ENV URL="https://api.papermc.io/v2/projects/paper" \
+    MC_VERSION="latest" \
     PAPER_BUILD="latest" \
     EULA="false" \
     MC_RAM="" \
     JAVA_OPTS=""
 
-COPY papermc.sh .
 RUN apk update \
     && apk add libstdc++ \
     && apk add openjdk21-jre \
@@ -18,6 +19,8 @@ RUN apk update \
     && apk add wget \
     && apk add jq \
     && mkdir /papermc
+
+COPY papermc.sh .
 
 # Start script
 CMD ["bash", "./papermc.sh"]
